@@ -10,7 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            NavigationLink(destination: BarcodeView()) {
+                Text("Scan Your Barcode")
+            }
+        }
     }
 }
 

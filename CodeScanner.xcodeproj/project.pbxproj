@@ -13,6 +13,10 @@
 		04CD722524CD4BAF0079C2AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04CD722424CD4BAF0079C2AA /* Assets.xcassets */; };
 		04CD722824CD4BAF0079C2AA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04CD722724CD4BAF0079C2AA /* Preview Assets.xcassets */; };
 		04CD722B24CD4BAF0079C2AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04CD722924CD4BAF0079C2AA /* LaunchScreen.storyboard */; };
+		04CD723824CD4E0A0079C2AA /* BarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CD723724CD4E0A0079C2AA /* BarcodeView.swift */; };
+		04CD723A24CD4F3E0079C2AA /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CD723924CD4F3E0079C2AA /* ScanView.swift */; };
+		04CD723C24CD52360079C2AA /* ScanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CD723B24CD52360079C2AA /* ScanController.swift */; };
+		04CD723E24CD562C0079C2AA /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CD723D24CD562C0079C2AA /* ScanViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		04CD722724CD4BAF0079C2AA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04CD722A24CD4BAF0079C2AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04CD722C24CD4BAF0079C2AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04CD723724CD4E0A0079C2AA /* BarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeView.swift; sourceTree = "<group>"; };
+		04CD723924CD4F3E0079C2AA /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
+		04CD723B24CD52360079C2AA /* ScanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanController.swift; sourceTree = "<group>"; };
+		04CD723D24CD562C0079C2AA /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,11 @@
 		04CD721D24CD4BAF0079C2AA /* CodeScanner */ = {
 			isa = PBXGroup;
 			children = (
+				04CD723624CD4DE20079C2AA /* Controller */,
+				04CD723524CD4DDC0079C2AA /* Model */,
+				04CD723424CD4DCB0079C2AA /* Util */,
+				04CD723324CD4DC50079C2AA /* ViewModel */,
+				04CD723224CD4DBE0079C2AA /* View */,
 				04CD721E24CD4BAF0079C2AA /* AppDelegate.swift */,
 				04CD722024CD4BAF0079C2AA /* SceneDelegate.swift */,
 				04CD722224CD4BAF0079C2AA /* ContentView.swift */,
@@ -73,6 +86,45 @@
 				04CD722724CD4BAF0079C2AA /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		04CD723224CD4DBE0079C2AA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04CD723724CD4E0A0079C2AA /* BarcodeView.swift */,
+				04CD723924CD4F3E0079C2AA /* ScanView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		04CD723324CD4DC50079C2AA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				04CD723D24CD562C0079C2AA /* ScanViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		04CD723424CD4DCB0079C2AA /* Util */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		04CD723524CD4DDC0079C2AA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		04CD723624CD4DE20079C2AA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				04CD723B24CD52360079C2AA /* ScanController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,7 +200,11 @@
 			files = (
 				04CD721F24CD4BAF0079C2AA /* AppDelegate.swift in Sources */,
 				04CD722124CD4BAF0079C2AA /* SceneDelegate.swift in Sources */,
+				04CD723A24CD4F3E0079C2AA /* ScanView.swift in Sources */,
 				04CD722324CD4BAF0079C2AA /* ContentView.swift in Sources */,
+				04CD723C24CD52360079C2AA /* ScanController.swift in Sources */,
+				04CD723E24CD562C0079C2AA /* ScanViewModel.swift in Sources */,
+				04CD723824CD4E0A0079C2AA /* BarcodeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +345,7 @@
 				DEVELOPMENT_TEAM = 4UE4U4YDT3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CodeScanner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -309,6 +366,7 @@
 				DEVELOPMENT_TEAM = 4UE4U4YDT3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CodeScanner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
