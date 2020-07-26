@@ -8,18 +8,28 @@
 
 import Foundation
 import AVFoundation
+import Combine
 
 class ScanViewModel: NSObject {
-    
+        
     private var captureSession: AVCaptureSession = AVCaptureSession()
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
-        return AVCaptureVideoPreviewLayer(session: captureSession) }()
+        return AVCaptureVideoPreviewLayer(session: captureSession)
+    }()
     
     var isScanSupported: Bool = false
-    var readableObject: ((String) -> Void)?
+    //var readableObject: ((String) -> Void)?
+    
+    private var resultPublisher: PassthroughSubject<String, CustomError>
+    var publisher: AnyPublisher<String, CustomError>
+
     
     init(bounds: CGRect) {
+        resultPublisher = PassthroughSubject<String, CustomError>()
+        publisher = resultPublisher.eraseToAnyPublisher()
+        
         super .init()
+        
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
         let videoInput: AVCaptureDeviceInput
         
@@ -43,7 +53,7 @@ class ScanViewModel: NSObject {
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.ean8, .ean13, .pdf417]
+            metadataOutput.metadataObjectTypes = metadataOutput.availableMetadataObjectTypes
             isScanSupported = true
         } else {
             isScanSupported = false
@@ -56,12 +66,22 @@ class ScanViewModel: NSObject {
         captureSession.startRunning()
     }
     
-    func startScanning(_ readableObject: @escaping (String?) -> Void) {
-        self.readableObject = readableObject
+    func toggleScan() {
+        !self.captureSession.isRunning ? captureSession.startRunning() : captureSession.stopRunning()
+    }
+    
+    func startScanning() {
         if !self.captureSession.isRunning {
             captureSession.startRunning()
         }
     }
+    
+//    func startScanning(_ readableObject: @escaping (String?) -> Void) {
+//        self.readableObject = readableObject
+//        if !self.captureSession.isRunning {
+//            captureSession.startRunning()
+//        }
+//    }
     
     func stopScanning() {
         if self.captureSession.isRunning {
@@ -78,7 +98,19 @@ extension ScanViewModel: AVCaptureMetadataOutputObjectsDelegate {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            self.readableObject?(stringValue)
+            //self.readableObject?(stringValue)
+//            if let resultModel = scanDelegate?.parseScannedString(stringValue) {
+//                resultPublisher.send(resultModel)
+//            } else {
+//                resultPublisher.send(completion: Subscribers.Completion.failure(.unsupported))
+//            }
+            resultPublisher.send(stringValue)
+
+        } else {
+            stopScanning()
+            resultPublisher.send(completion: Subscribers.Completion.failure(.notscanned))
         }
     }
+    
+    
 }

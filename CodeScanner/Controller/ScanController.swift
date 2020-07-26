@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Combine
 
 protocol ScanControllerProtocol: class {
     func udpateScannedData(data: String)
 }
 
 final class ScanController: UIViewController {
-    
+    var resultSubscriber: AnyCancellable?
     weak var scanControllerDelegate: ScanControllerProtocol?
     var scanViewModel: ScanViewModel!
     
@@ -23,17 +24,34 @@ final class ScanController: UIViewController {
         scanViewModel = ScanViewModel(bounds: self.view.layer.bounds)
         if scanViewModel.isScanSupported {
             view.layer.addSublayer(scanViewModel.previewLayer)
-            scanViewModel.startScanning { (readableObject) in
-                if let readableObject = readableObject {
-                    self.scanControllerDelegate?.udpateScannedData(data: readableObject)
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
+            let scanSubscriber = scanViewModel
+                .publisher
+                .print("headingSubscriber")
+                .receive(on: RunLoop.main)
+                .sink(receiveCompletion: { completion in },
+                      receiveValue: { someValue in
+                        //self.headingLabel.text = String(someValue.trueHeading)
+                        self.updateStatus(with: someValue)
+                        print(someValue)
+                })
+
+            resultSubscriber = AnyCancellable(scanSubscriber)
+            
+            scanViewModel.startScanning()
+//            scanViewModel.startScanning { (readableObject) in
+//                if let readableObject = readableObject {
+//                    self.scanControllerDelegate?.udpateScannedData(data: readableObject)
+//                    self.dismiss(animated: true, completion: nil)
+//                }
+//            }
         } else {
             failedToScan()
         }
         
-        scanControllerDelegate?.udpateScannedData(data: "No Code Scanned")
+    }
+    
+    private func updateStatus(with result: String) {
+        scanControllerDelegate?.udpateScannedData(data: result)
     }
     
     func failedToScan() {

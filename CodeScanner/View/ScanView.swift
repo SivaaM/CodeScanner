@@ -8,20 +8,29 @@
 
 import SwiftUI
 
-struct ScanView: UIViewControllerRepresentable {
+struct ScanView<T: ResultModel>: UIViewControllerRepresentable {
     
-    @Binding var scannedData: String?
+    @Binding var scannedData: T?
+    
+    var scanModelDelegate: ScanModelDelegate?
     
     class Coordinator: NSObject, ScanControllerProtocol {
         
         var parent: ScanView
-    
+        var scanModelDelegate: ScanModelDelegate?
+
         init(_ parent: ScanView) {
             self.parent = parent
         }
 
         func udpateScannedData(data: String) {
-            parent.scannedData = data
+            scanModelDelegate = parent.scanModelDelegate
+            guard let genericScanModel = scanModelDelegate?.parseScannedString(data) else {
+                parent.scannedData = nil
+                return
+            }
+        
+            parent.scannedData = genericScanModel as? T
         }
     }
     
@@ -37,4 +46,5 @@ struct ScanView: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: ScanController, context: UIViewControllerRepresentableContext<ScanView>) {
     }
+    
 }

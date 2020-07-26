@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct BarcodeView: View {
-    
+        
     @State private var showScanView = false
-    @State var scannedData: String?
+    @State var scannedData: BarCodeModel?
     
     var body: some View {
         NavigationView {
@@ -19,13 +19,14 @@ struct BarcodeView: View {
                 self.showScanView.toggle()
             }
             .sheet(isPresented: $showScanView, onDismiss: displayScannedData) {
-                ScanView(scannedData: self.$scannedData)
+                //ScanView<BarCodeModel>(scannedData: self.$scannedData)
+                ScanView<BarCodeModel>(scannedData: self.$scannedData, scanModelDelegate: BarCodeDataHandler())
             }
         }
     }
     
     private func displayScannedData() {
-        print("Final Result: \(self.scannedData ?? "No Data Retrieved")")
+        print("Final Result: \(self.scannedData?.barcode ?? "No Data Retrieved")")
     }
 }
 
